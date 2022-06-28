@@ -294,7 +294,6 @@ public class ContextConfig implements LifecycleListener {
         // Identify the context we are associated with
         try {
             context = (Context) event.getLifecycle();
-            context.addServletContainerInitializer(new JasperInitializer(), null);
         } catch (ClassCastException e) {
             log.error(sm.getString("contextConfig.cce", event.getLifecycle()), e);
             return;
@@ -986,7 +985,8 @@ public class ContextConfig implements LifecycleListener {
         }
 
         webConfig();
-
+        // fix http://127.0.0.1:9090/ init jsp page
+        context.addServletContainerInitializer(new JasperInitializer(), null);
         if (!context.getIgnoreAnnotations()) {
             applicationAnnotationsConfig();
         }
